@@ -1,0 +1,9 @@
+.time-input {
+    text-align: center;
+    font-size: 18px;
+    padding: 9px;
+    width: 100px;
+    margin-right: 10px;
+    border-radius: 13px;
+    border: 1px solid #999;
+}
