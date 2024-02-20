@@ -38,3 +38,7 @@
     background: #313131;
     cursor: pointer;
   }
+
+  .ml-2 {
+    margin-left: 20px;
+  }

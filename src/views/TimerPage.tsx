@@ -35,10 +35,39 @@ const TimerPage = () => {
     const [ isActive, setIsActive ] = useState<boolean>(false)
 
     const updateCurrentValue = () => {
-        // Переписать !!!!
-        const result = currentValue!.seconds - 1;
+        if(currentValue == null) return;
 
-        setCurrentValue(new TimeData(currentValue?.minutes, result))
+        setCurrentValue(reduceCurrentTime(currentValue));
+
+        console.log(currentValue.isEmpty);
+        console.log(isActive);
+
+        if(currentValue.isEmpty && isActive) {
+            showEndTimerPopup();
+            clearTimer();
+        }
+    }
+
+    const reduceCurrentTime = (time: TimeData): TimeData => {
+        
+        let { minutes, seconds } = time;
+
+        if(seconds > 0) {
+            seconds--;
+        }
+
+        if(seconds == 0 && minutes > 0) {
+            minutes--;
+            seconds = 60;
+        }
+        
+        return new TimeData(minutes, seconds);
+    }
+
+    const showEndTimerPopup = () => {
+        setPopupProps({ 
+            ...popupProps, title: "Таймер завершен", text: "Таймер закончил свою работу. Вы можете запустить его вновь указав необходимое значение.",  visible: true
+        })
     }
 
     const { start, stop } = useTimer(updateCurrentValue);
@@ -96,13 +125,13 @@ const TimerPage = () => {
             <section>
                 <TimeIndicator />
                 <div>
-                    { currentValue?.seconds }
-                    <TimerInput value={starValue} onChange={inputChange}  />
+                    { currentValue?.minutes + ":" + currentValue?.seconds }
+                    <TimerInput disabled={isActive} value={starValue} onChange={inputChange}  />
                     { isActive 
                         ? (
                             <>
-                                <button onClick={stopTimer}>Пауза</button>
-                                <button onClick={clearTimer}>Остановить</button>
+                                <button styleName="pause" onClick={stopTimer}>Пауза</button>
+                                <button className="ml-2" onClick={clearTimer}>Остановить</button>
                             </>
                         )
                         : <button onClick={startTimer}>Запустить</button>
