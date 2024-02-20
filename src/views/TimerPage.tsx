@@ -4,6 +4,7 @@ import TimeIndicator from "../components/Timer/TimeIndicator";
 import TimerInput from "../components/Timer/TimeInput";
 import TimeConverter from "../services/TimeConverter";
 import TimeData from "../models/TimeData";
+import useTimer from "../hooks/useTimer";
 
 const TimerPage = () => {
 
@@ -28,6 +29,10 @@ const TimerPage = () => {
     });
 
     const [ timerValue, setTimerValue ] = useState<string>("");
+
+    const { start, stop } = useTimer(() => {
+        console.log(123);
+    });
 
     const inputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setTimerValue(event.target.value);
@@ -56,6 +61,7 @@ const TimerPage = () => {
     const startTimer = () => {
         const timeData = TimeConverter.convertToTimeData(timerValue);
 
+        start();
         if(!timeDataIsValid(timeData)) return;
 
         console.log(timeData);
