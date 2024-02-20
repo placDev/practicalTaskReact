@@ -5,6 +5,8 @@ import TimerInput from "../components/Timer/TimeInput";
 import TimeConverter from "../services/TimeConverter";
 import TimeData from "../models/TimeData";
 import useTimer from "../hooks/useTimer";
+import styles from "../styles/timerPage.module.css"
+import CSSModule from "react-css-modules";
 
 const TimerPage = () => {
 
@@ -28,14 +30,21 @@ const TimerPage = () => {
         visible: false
     });
 
-    const [ timerValue, setTimerValue ] = useState<string>("");
+    const [ starValue, setStarValue ] = useState<string>("");
+    const [ currentValue, setCurrentValue ] = useState<TimeData | null>(null)
+    const [ isActive, setIsActive ] = useState<boolean>(false)
 
-    const { start, stop } = useTimer(() => {
-        console.log(123);
-    });
+    const updateCurrentValue = () => {
+        // Переписать !!!!
+        const result = currentValue!.seconds - 1;
+
+        setCurrentValue(new TimeData(currentValue?.minutes, result))
+    }
+
+    const { start, stop } = useTimer(updateCurrentValue);
 
     const inputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setTimerValue(event.target.value);
+        setStarValue(event.target.value);
     }
 
     const timeDataIsValid = (value: TimeData): boolean => {
@@ -59,24 +68,45 @@ const TimerPage = () => {
     }
 
     const startTimer = () => {
-        const timeData = TimeConverter.convertToTimeData(timerValue);
+        if(currentValue == null) {
+            const timeData = TimeConverter.convertToTimeData(starValue);
+            if(!timeDataIsValid(timeData)) return;
+
+            setCurrentValue(timeData);
+            setStarValue("");
+        }
 
         start();
-        if(!timeDataIsValid(timeData)) return;
+        setIsActive(true);
+    }
 
-        console.log(timeData);
+    const stopTimer = () => {
+        stop();
+        setIsActive(false);
+    }
 
-        setTimerValue("");
+    const clearTimer = () => {
+        stopTimer();
+        setCurrentValue(null);
     }
 
     return (
         <>
             <h1 className="font-weight-300">Таймер</h1>
-            <section styleName="content">
+            <section>
                 <TimeIndicator />
-                <div styleName="form">
-                    <TimerInput value={timerValue} onChange={inputChange}  />
-                    <button onClick={startTimer}>Запустить</button>
+                <div>
+                    { currentValue?.seconds }
+                    <TimerInput value={starValue} onChange={inputChange}  />
+                    { isActive 
+                        ? (
+                            <>
+                                <button onClick={stopTimer}>Пауза</button>
+                                <button onClick={clearTimer}>Остановить</button>
+                            </>
+                        )
+                        : <button onClick={startTimer}>Запустить</button>
+                    }
                 </div>
             </section>
             <Popup {...popupProps} />
@@ -84,4 +114,4 @@ const TimerPage = () => {
     );
 }
 
-export default TimerPage;
+export default CSSModule(TimerPage, styles);
