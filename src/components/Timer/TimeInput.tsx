@@ -1,11 +1,18 @@
 import InputMask from 'react-input-mask';
 import styles from '../../styles/timeInput.module.css';
 import CSSModules from 'react-css-modules';
+import { ChangeEvent } from 'react';
 
-const TimerInput = () => {
+type PropsType = {
+    value: string,
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void,
+}
+
+const TimerInput = ({ value, onChange }: PropsType) => {
+    
     return (
         <>
-            <InputMask styleName='time-input' mask="99:99" placeholder="00:00" />
+            <InputMask value={value} onChange={onChange} maskChar="" styleName='time-input' mask="99:99" placeholder="00:00" />
         </>
     );
 }

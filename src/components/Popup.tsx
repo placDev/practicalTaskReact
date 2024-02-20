@@ -15,8 +15,8 @@ const Popup = ({ title, text, visible, onClose }: PropsType) => {
             <section styleName="window">
                 <div styleName="title">{ title }</div>
                 <div styleName="text">{ text }</div>
-                <div>
-                    <button onClick={() => onClose}>Закрыть</button>
+                <div styleName="buttons">
+                    <button onClick={onClose}>Закрыть</button>
                 </div>
             </section>
         </>
