@@ -30,7 +30,9 @@ const TimerPage = () => {
         visible: false
     });
 
-    const [ starValue, setStarValue ] = useState<string>("");
+    const [ inputTimeValue, setInputTimeValue ] = useState<string>("");
+    const [ initialTimeValue, setInitialTimeValue ] = useState<string>("");
+
     const [ currentValue, setCurrentValue ] = useState<TimeData | null>(null)
     const [ isActive, setIsActive ] = useState<boolean>(false)
 
@@ -39,9 +41,6 @@ const TimerPage = () => {
 
         setCurrentValue(reduceCurrentTime(currentValue));
 
-        console.log(currentValue.isEmpty);
-        console.log(isActive);
-
         if(currentValue.isEmpty && isActive) {
             showEndTimerPopup();
             clearTimer();
@@ -49,7 +48,6 @@ const TimerPage = () => {
     }
 
     const reduceCurrentTime = (time: TimeData): TimeData => {
-        
         let { minutes, seconds } = time;
 
         if(seconds > 0) {
@@ -73,7 +71,7 @@ const TimerPage = () => {
     const { start, stop } = useTimer(updateCurrentValue);
 
     const inputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setStarValue(event.target.value);
+        setInputTimeValue(event.target.value);
     }
 
     const timeDataIsValid = (value: TimeData): boolean => {
@@ -98,11 +96,12 @@ const TimerPage = () => {
 
     const startTimer = () => {
         if(currentValue == null) {
-            const timeData = TimeConverter.convertToTimeData(starValue);
+            const timeData = TimeConverter.convertToTimeData(inputTimeValue);
             if(!timeDataIsValid(timeData)) return;
 
             setCurrentValue(timeData);
-            setStarValue("");
+            setInitialTimeValue(inputTimeValue);
+            setInputTimeValue("");
         }
 
         start();
@@ -119,23 +118,28 @@ const TimerPage = () => {
         setCurrentValue(null);
     }
 
+    const computeDisabledTimerInput = (): boolean => {
+        return isActive || (currentValue != null && !currentValue.isEmpty);
+    }
+
     return (
         <>
             <h1 className="font-weight-300">Таймер</h1>
-            <section>
-                <TimeIndicator />
+            <section styleName="content">
                 <div>
-                    { currentValue?.minutes + ":" + currentValue?.seconds }
-                    <TimerInput disabled={isActive} value={starValue} onChange={inputChange}  />
-                    { isActive 
-                        ? (
-                            <>
-                                <button styleName="pause" onClick={stopTimer}>Пауза</button>
-                                <button className="ml-2" onClick={clearTimer}>Остановить</button>
-                            </>
-                        )
-                        : <button onClick={startTimer}>Запустить</button>
-                    }
+                    <TimeIndicator time={currentValue} initialTime={initialTimeValue} />
+                    <section styleName="buttons">
+                        <TimerInput disabled={computeDisabledTimerInput()} value={inputTimeValue} onChange={inputChange}  />
+                        { isActive 
+                            ? (
+                                <>
+                                    <button styleName="pause" onClick={stopTimer}>Пауза</button>
+                                    <button className="ml-2" onClick={clearTimer}>Остановить</button>
+                                </>
+                            )
+                            : <button onClick={startTimer}>Запустить</button>
+                        }
+                    </section>
                 </div>
             </section>
             <Popup {...popupProps} />

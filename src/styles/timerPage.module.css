@@ -1,3 +1,13 @@
 .pause {
     background: #680f0f;
 }
+
+.buttons {
+
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
