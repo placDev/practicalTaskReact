@@ -1,0 +1,24 @@
+.content {
+    height: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid #9c9c9cc9;
+}
+
+.palette {
+    background: #9c9c9cc9;
+    flex: 1;
+}
+
+.canvas {
+    background: #ffffff;
+    flex: 7;
+}
+
+.canvas-element {
+    height: 100%;
+    width: 100%;
+}
