@@ -5,6 +5,7 @@ import TimerInput from "../components/Timer/TimeInput";
 import TimeConverter from "../services/TimeConverter";
 import TimeData from "../models/TimeData";
 import useTimer from "../hooks/useTimer";
+import useEnterKeyDown from "../hooks/useEnterKeyDown";
 import styles from "../styles/timerPage.module.css"
 import CSSModule from "react-css-modules";
 import PopupProps from "../models/PopupProps";
@@ -109,6 +110,8 @@ const TimerPage = () => {
         start();
         setIsActive(true);
     }
+
+    useEnterKeyDown(startTimer);
 
     const stopTimer = () => {
         stop();
