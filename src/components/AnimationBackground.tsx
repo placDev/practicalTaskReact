@@ -20,5 +20,4 @@ const AnimationBackground = () => {
     );
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export default CSSModules(AnimationBackground, styles, { allowMultiple: true });

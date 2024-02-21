@@ -1,0 +1,35 @@
+.body {
+    height: 50px;
+    width: 50px;
+    margin: 10px;
+    border: 1px solid #9c9c9cc9;
+}
+
+.body:hover {
+    cursor: pointer;
+}
+
+.wrapper {
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 3px;
+    top: 3px;
+    background: #ff4e4e;
+    width: 17px;
+    height: 17px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    font-size: 12px;
+    color: #FFF;
+    font-weight: 600;
+}
+
+.close:hover {
+    background: #dc4444;
+    cursor: pointer;
+}

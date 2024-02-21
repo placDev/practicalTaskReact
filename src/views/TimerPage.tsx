@@ -7,16 +7,9 @@ import TimeData from "../models/TimeData";
 import useTimer from "../hooks/useTimer";
 import styles from "../styles/timerPage.module.css"
 import CSSModule from "react-css-modules";
+import PopupProps from "../models/PopupProps";
 
 const TimerPage = () => {
-
-    type PopupProps = {
-        title: string,
-        text: string,
-        onClose: () => void,
-        visible: boolean
-    }
-
     const closePopupHandler = () => {
         setPopupProps({ 
             ...popupProps, visible: false

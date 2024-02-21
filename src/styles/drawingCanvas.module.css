@@ -1,0 +1,20 @@
+.canvas {
+    background: #ffffff;
+    flex: 7;
+    position: relative;
+    border: 1px solid #9c9c9cc9;
+    overflow: hidden;
+    border-radius: 4px;
+    margin-left: 3px;
+}
+
+.canvas-element {
+    height: 500px;
+    width: 1000px;
+}
+
+.clear {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
