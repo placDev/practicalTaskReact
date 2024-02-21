@@ -1,6 +1,10 @@
 import CSSModules from "react-css-modules";
 import styles from "../styles/palettePage.module.css"
 import { useEffect, useRef } from "react";
+import paletteStore from "../stores/paletteStore";
+import { observer } from "mobx-react";
+import Color from "../models/Color";
+
 const PalettePage = () => {
 
     const canvas = useRef<HTMLCanvasElement>(null);
@@ -38,9 +42,15 @@ const PalettePage = () => {
             <section styleName="content">
                 <div styleName="palette">
                     <div styleName="options">
-                        <button>Добавить</button>
+                        <button onClick={() => paletteStore.addColor(new Color())}>Добавить</button>
                     </div>
-                    <div styleName="colors"></div>
+                    <div styleName="colors">
+                        {
+                            paletteStore.colors.map((color) => {
+                                return <div key={color.id} onClick={() => paletteStore.deleteColor(color.id)}>{ color.id } - { color.hex }</div>;
+                            })
+                        }
+                    </div>
                 </div>
                 <div styleName="canvas">
                     <button styleName="clear" onClick={clearCanvas}>Очистить</button>
@@ -49,6 +59,8 @@ const PalettePage = () => {
             </section>
         </>
     );
-}
+};
 
-export default CSSModules(PalettePage, styles);
+//export default CSSModules(PalettePage, styles);
+
+export default observer(CSSModules(PalettePage, styles));
