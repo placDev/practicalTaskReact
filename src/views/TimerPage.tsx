@@ -64,7 +64,10 @@ const TimerPage = () => {
 
     const showEndTimerPopup = () => {
         setPopupProps({ 
-            ...popupProps, title: "Таймер завершен", text: "Таймер закончил свою работу. Вы можете запустить его вновь указав необходимое значение.",  visible: true
+            ...popupProps, 
+            title: "Таймер завершен", 
+            text: "Таймер закончил свою работу. Вы можете запустить его вновь указав необходимое значение.",  
+            visible: true
         })
     }
 
@@ -77,7 +80,10 @@ const TimerPage = () => {
     const timeDataIsValid = (value: TimeData): boolean => {
         if(value.isEmpty) {
             setPopupProps({ 
-                ...popupProps, title: "Ошибка", text: "Данные таймера не заполненны",  visible: true
+                ...popupProps, 
+                title: "Ошибка", 
+                text: "Данные таймера не заполненны",  
+                visible: true
             })
 
             return false;
@@ -85,7 +91,10 @@ const TimerPage = () => {
 
         if(value.seconds > 60) {
             setPopupProps({ 
-                ...popupProps, title: "Ошибка", text: "Недопустимое число секунд",  visible: true
+                ...popupProps, 
+                title: "Ошибка", 
+                text: "Недопустимое число секунд",  
+                visible: true
             })
 
             return false;
